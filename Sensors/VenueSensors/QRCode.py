@@ -4,8 +4,6 @@ from EventBus.User.UserBus   import UserBus
 from EventBus.Venue.VenueBus import VenueBus
 from EventBus.Event import Event
 
-from NdR.Participants.User import User
-
 class QRCode(object):
     '''
     QR Code object of the Venue 
@@ -19,16 +17,16 @@ class QRCode(object):
         self.__venuebus  = venuebus
         pass 
     
-    def checkAvailability(self, user : User):
+    def checkAvailability(self, user : str):
         '''
         Sends the details regarding the availability of the venue to the User
         '''
         if self.__venue.isAvailable():
             event = Event("available_venue", self.__venue.getName())
-            self.__userbus.publishToBus(event,user.getName())
+            self.__userbus.publishToBus(event,user)
             pass
         else: 
-            event = Event("find_available_venue", user.getName())
+            event = Event("find_available_venue", user)
             self.__venuebus.publishToBus(event) 
             pass
     

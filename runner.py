@@ -15,6 +15,7 @@ from NdR.AutomatedSystems.Venues.Implementations.VenueB import VenueB
 from NdR.AutomatedSystems.Venues.Implementations.VenueC import VenueC
 
 from NdR.Participants.User import User
+from NdR.Participants.Visitor import Visitor
 
 from NdR.VenueEvent.VenueEvent import VenueEvent
 
@@ -142,18 +143,18 @@ while True:
             ny = User(name, types[index], disability = disability, acBus = acBus) 
         else: 
             ny = User(name, types[index]) 
-        visitors.append(ny) 
+        visitors.append(Visitor(ny)) 
         userEventBus.addToBus(ny)
         weatherBus.addToBus(ny) 
         usernotifierBus.addToBus(ny) 
         
     if random.random() < 0.5:
         if visitors != []:
-            qrCodeA.checkAvailability(visitors[-1]) 
+            visitors[-1].scanQRCode(qrCodeA)
     
     if random.random() < 0.5:
         if visitors != []:
-            parkingMatSensorA.checkAvailable(visitors[-1]) 
+            visitors[-1].scanMatSensor(parkingMatSensorA)
         parkingMatSensorA.sendValues() 
     
     # Weather Sensor sending values to the Users at the end of the iterations! 

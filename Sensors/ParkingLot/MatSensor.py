@@ -21,10 +21,10 @@ class ParkingMatSensor(object):
     def checkAvailable(self, user):
         if self.__parkingLot.isAvailable():
             event = Event("available_lot", self.__parkingLot.getName())
-            self.__userbus.publishToBus(event,user.getName())
+            self.__userbus.publishToBus(event,user)
             pass
         else: 
-            event = Event("find_available_lot", user.getName())
+            event = Event("find_available_lot", user)
             self.__parkbus.publishToBus(event) 
             pass
     

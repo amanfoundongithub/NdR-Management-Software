@@ -1,5 +1,4 @@
 from EventBus.Event import Event
-
 class User(object):
     def __init__(self, name, preference,disability = False, acBus = None):
         self.__pref = preference
@@ -9,7 +8,7 @@ class User(object):
         if disability == True:
             event = Event("add", self.__name)
             acBus.publishToBus(event) 
-            
+    
     def getName(self):
         return self.__name
     
