@@ -1,23 +1,22 @@
 from EventBus.Event import Event
 class User(object):
-    def __init__(self, name, preference,disability = False, acBus = None):
-        self.__pref = preference
+    def __init__(self, name, preference,disability = None, acBus = None):
+        self.__pref = preference 
         self.__name = name 
-        self.__disa = disability
         
-        if disability == True:
-            event = Event("add", self.__name)
+        if disability is not None:
+            event = Event("add", {'name' : self.__name, 'disabilities' : disability})
             acBus.publishToBus(event) 
     
     def getName(self):
         return self.__name
     
     def getTemperature(self, value):
-        # print("I am", self.__name, "& Temperature recieved: ", value) 
+        print("I am", self.__name, "& Temperature recieved: ", value) 
         return 
     
     def getHumidity(self, value):
-        # print("I am", self.__name, "& Humidity recieved: ", value) 
+        print("I am", self.__name, "& Humidity recieved: ", value) 
         return 
     
     def getAvailableVenue(self, name):

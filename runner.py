@@ -147,6 +147,7 @@ while True:
         disability = input("Are you disabled?")
         disability = {'yes' : True, 'no' : False}[disability]
         if disability == True:
+            disability = list(input('Enter disabilties:').split())
             ny = User(name, types[index], disability = disability, acBus = acBus) 
         else: 
             ny = User(name, types[index]) 

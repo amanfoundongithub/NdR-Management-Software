@@ -7,7 +7,12 @@ class AccessibilityService(object):
     def getName(self):
         return self.__name
     
-    def addPerson(self, name : str):
-        print(name + " has been added to Accessibility service for " , self.__name) 
-        self.__list.append(name) 
-        return 
+    def addPerson(self, data):
+        try: 
+            name = data['name']
+            disability = self.__name in data['disabilities']
+            if disability:
+                print(name + " has been added to Accessibility service for " , self.__name) 
+                self.__list.append(name) 
+        except Exception:
+            return 
