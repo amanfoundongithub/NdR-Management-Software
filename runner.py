@@ -18,6 +18,7 @@ from NdR.Participants.User import User
 from NdR.Participants.Visitor import Visitor
 
 from NdR.VenueEvent.VenueEvent import VenueEvent
+from NdR.VenueEvent.EventAdmin import EventAdmin
 
 from NdR.BookingWindow.BookingWindow import BookingWindow
 
@@ -27,6 +28,7 @@ from EventBus.ParkingLot.ParkingLotBus                  import ParkingLotBus
 from EventBus.Weather.WeatherBus                        import WeatherBus
 from EventBus.VenueEvent.UserNotifierBus                import UserNotifierBus
 from EventBus.AccessibilityService.AccessibilityService import AccessibilityBus
+from EventBus.VenueEvent.EventAdminBus                  import EventAdminBus
 
 import random 
 import time 
@@ -115,22 +117,27 @@ venue_event = VenueEvent(name = "Lecture by Dr. SK",
                          userbus = usernotifierBus)
 
 
-venue_event.startEvent() 
-
 
 types = ["science", "comedy", "game"] 
 
 
 while True: 
-    i += 1
-    
     # Every minute we try to create a new event 
     if i%12 == 0:
+        print("New event started!") 
         venue_event.endEvent() 
         venue_event = VenueEvent(name = "Henry Sir Lecture", type = "science", venuebus = venueEventBus,
                                  userbus = usernotifierBus)
-        venue_event.startEvent() 
+
+        adminBus = EventAdminBus()
+        for iota in ['Harjin','Kaul','Yashdeep','Jakob']:
+            admin = EventAdmin(name = iota, event = venue_event.getName())
+            adminBus.addToBus(admin)
+        
+        venue_event.startEvent(event_bus = adminBus) 
         venue_event.recommendEvent() 
+    
+    i += 1
 
     # Someone visits and becomes a visitor with probability 0.4 per time 
     if random.random() < 0.4:
@@ -146,7 +153,10 @@ while True:
         visitors.append(Visitor(ny)) 
         userEventBus.addToBus(ny)
         weatherBus.addToBus(ny) 
-        usernotifierBus.addToBus(ny) 
+        usernotifierBus.addToBus(ny)
+        
+        n = int(input("Tickets:"))
+        bookingWindowA.bookTickets(demand = n)  
         
     if random.random() < 0.5:
         if visitors != []:

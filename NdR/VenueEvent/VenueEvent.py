@@ -1,5 +1,7 @@
 from EventBus.Venue.VenueBus import VenueBus
 from EventBus.VenueEvent.UserNotifierBus import UserNotifierBus
+from EventBus.VenueEvent.EventAdminBus   import EventAdminBus
+
 from EventBus.Event import Event
 
 class VenueEvent(object):
@@ -12,8 +14,8 @@ class VenueEvent(object):
         self.__venuebus = venuebus
         self.__userbus  = userbus 
     
-    def startEvent(self):
-        event = Event("start_event", {}) 
+    def startEvent(self, event_bus : EventAdminBus):
+        event = Event("start_event", event_bus) 
         self.__venuebus.publishToBus(event) 
          
     

@@ -13,11 +13,11 @@ class User(object):
         return self.__name
     
     def getTemperature(self, value):
-        print("I am", self.__name, "& Temperature recieved: ", value) 
+        # print("I am", self.__name, "& Temperature recieved: ", value) 
         return 
     
     def getHumidity(self, value):
-        print("I am", self.__name, "& Humidity recieved: ", value) 
+        # print("I am", self.__name, "& Humidity recieved: ", value) 
         return 
     
     def getAvailableVenue(self, name):

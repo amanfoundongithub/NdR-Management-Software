@@ -11,7 +11,7 @@ class VenueBus(object):
         # Subscribe all the events 
         self.__bus['find_available_venue'] = Venue.notifyAvailable
         
-        self.__bus['start_event']          = Venue.reset
+        self.__bus['start_event']          = Venue.startEvent
         self.__bus['end_event']            = Venue.reset
         
         self.__bus['add_people']           = Venue.addPeopleToVenue
