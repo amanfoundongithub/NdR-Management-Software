@@ -4,8 +4,12 @@ from Sensors.VenueSensors.QRCode import QRCode
 
 
 class Visitor(object):
-    def __init__(self, user : User):
-        self.__user = user 
+    def __init__(self, name, preference,disability = None, acBus = None):
+        self.__user = User(name, preference, disability = disability, acBus = acBus) 
+    
+    def getUser(self):
+        return self.__user
+         
     
     def scanQRCode(self, qrCode : QRCode):
         qrCode.checkAvailability(self.__user.getName()) 
