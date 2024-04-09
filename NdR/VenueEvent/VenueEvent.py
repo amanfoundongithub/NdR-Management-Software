@@ -1,8 +1,8 @@
-from EventBus.Venue.VenueBus import VenueBus
-from EventBus.VenueEvent.UserNotifierBus import UserNotifierBus
-from EventBus.VenueEvent.EventAdminBus   import EventAdminBus
+from EventBus.Implementations.Venue.VenueBus import VenueBus
+from EventBus.Implementations.VenueEvents.UserNotifierBus import UserNotifierBus
+from EventBus.Implementations.VenueEvents.EventAdminBus   import EventAdminBus
 
-from EventBus.Event import Event
+from Event.Event import Event
 
 class VenueEvent(object):
     '''

@@ -1,19 +1,23 @@
-from NdR.AutomatedSystems.ParkingLots.Abstract.ParkingLot import ParkingLot
-from ..Event    import Event
+from EventBus.Abstract.EventBusInterface import EventBusInterface
+from NdR.AutomatedSystems.Venues.Abstract.Venue import Venue
+from Event.Event    import Event
 
 
-class ParkingLotBus(object):
+class VenueBus(EventBusInterface):
     def __init__(self):
         
         self.__users = {}
         self.__bus   = {}
         
         # Subscribe all the events 
-        self.__bus['find_available_lot'] = ParkingLot.notifyAvailable
-        self.__bus['add_vehicles'] = ParkingLot.addVehicles
-        self.__bus['remove_vehicles'] = ParkingLot.removeVehicles
+        self.__bus['find_available_venue'] = Venue.notifyAvailable
+        
+        self.__bus['start_event']          = Venue.startEvent
+        self.__bus['end_event']            = Venue.reset
+        
+        self.__bus['add_people']           = Venue.addPeopleToVenue
     
-    def addToBus(self, user : ParkingLot):
+    def addToBus(self, user : Venue):
         if user.getName() not in self.__users:
             self.__users[user.getName()] = user 
     

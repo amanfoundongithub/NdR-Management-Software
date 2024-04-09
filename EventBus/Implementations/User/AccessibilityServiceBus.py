@@ -1,7 +1,8 @@
-from NdR.Participants.User import User
-from ..Event    import Event
+from EventBus.Abstract.EventBusInterface import EventBusInterface
+from NdR.AccessibilityService.AccessibilityService import AccessibilityService
+from Event.Event    import Event
 
-class UserBus(object):
+class AccessibilityBus(EventBusInterface):
     
     def __init__(self):
         
@@ -9,14 +10,10 @@ class UserBus(object):
         self.__bus   = {}
         
         # Subscribe all the events 
-        self.__bus['available_venue'] = User.getAvailableVenue
-        self.__bus['available_venue_alt'] = User.getAltVenue
-        
-        self.__bus['available_lot'] = User.getAvailableLot 
-        self.__bus['available_lot_alt'] = User.getAltLot
+        self.__bus['add'] = AccessibilityService.addPerson
         
     
-    def addToBus(self, user : User):
+    def addToBus(self, user : AccessibilityService):
         if user.getName() not in self.__users:
             self.__users[user.getName()] = user
     

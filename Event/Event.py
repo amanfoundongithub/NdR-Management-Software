@@ -3,6 +3,11 @@
 class Event(object):
     '''
     Event object that contains the name and the details of the events in Event Driven Architecture 
+    
+    Params: \n
+    event_name => Name of the Event \n
+    event_data => Data related to the Event 
+    
     '''
     def __init__(self, 
                  event_name : str, 

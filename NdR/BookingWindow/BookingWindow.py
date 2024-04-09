@@ -1,5 +1,5 @@
-from EventBus.Venue.VenueBus import VenueBus
-from EventBus.Event          import Event 
+from EventBus.Implementations.Venue.VenueBus import VenueBus
+from Event.Event          import Event 
 
 class BookingWindow(object):
    """

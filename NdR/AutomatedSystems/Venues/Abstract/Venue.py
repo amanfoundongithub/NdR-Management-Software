@@ -1,6 +1,6 @@
-from EventBus.User.UserBus             import UserBus
-from EventBus.VenueEvent.EventAdminBus import EventAdminBus
-from EventBus.Event                    import Event
+from EventBus.Implementations.User.UserBus             import UserBus
+from EventBus.Implementations.VenueEvents.EventAdminBus import EventAdminBus
+from Event.Event                    import Event
 
 
 class Venue(object):

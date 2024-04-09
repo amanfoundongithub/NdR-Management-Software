@@ -1,7 +1,8 @@
+from EventBus.Abstract.EventBusInterface import EventBusInterface
 from NdR.Participants.User import User
-from ..Event    import Event
+from Event.Event    import Event
 
-class WeatherBus(object):
+class WeatherBus(EventBusInterface):
     
     def __init__(self):
         

@@ -1,7 +1,7 @@
 from ..Abstract.SensorInterface  import Sensor
 
-from EventBus.Weather.WeatherBus import WeatherBus
-from EventBus.Event              import Event
+from EventBus.Implementations.User.WeatherBus import WeatherBus
+from Event.Event              import Event
 
 import random 
 

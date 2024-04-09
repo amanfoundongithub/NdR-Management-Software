@@ -1,4 +1,4 @@
-from EventBus.Event import Event
+from Event.Event import Event
 class User(object):
     def __init__(self, name, preference,disability = None, acBus = None):
         self.__pref = preference 

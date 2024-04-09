@@ -14,7 +14,6 @@ from NdR.AutomatedSystems.Venues.Implementations.VenueA import VenueA
 from NdR.AutomatedSystems.Venues.Implementations.VenueB import VenueB
 from NdR.AutomatedSystems.Venues.Implementations.VenueC import VenueC
 
-from NdR.Participants.User import User
 from NdR.Participants.Visitor import Visitor
 
 from NdR.VenueEvent.VenueEvent import VenueEvent
@@ -22,13 +21,13 @@ from NdR.VenueEvent.EventAdmin import EventAdmin
 
 from NdR.BookingWindow.BookingWindow import BookingWindow
 
-from EventBus.User.UserBus                              import UserBus
-from EventBus.Venue.VenueBus                            import VenueBus
-from EventBus.ParkingLot.ParkingLotBus                  import ParkingLotBus
-from EventBus.Weather.WeatherBus                        import WeatherBus
-from EventBus.VenueEvent.UserNotifierBus                import UserNotifierBus
-from EventBus.AccessibilityService.AccessibilityService import AccessibilityBus
-from EventBus.VenueEvent.EventAdminBus                  import EventAdminBus
+from EventBus.Implementations.User.UserBus                              import UserBus
+from EventBus.Implementations.Venue.VenueBus                            import VenueBus
+from EventBus.Implementations.ParkingLot.ParkingLotBus                  import ParkingLotBus
+from EventBus.Implementations.User.WeatherBus                        import WeatherBus
+from EventBus.Implementations.VenueEvents.UserNotifierBus                import UserNotifierBus
+from EventBus.Implementations.User.AccessibilityServiceBus import AccessibilityBus
+from EventBus.Implementations.VenueEvents.EventAdminBus                  import EventAdminBus
 
 import random 
 import time 

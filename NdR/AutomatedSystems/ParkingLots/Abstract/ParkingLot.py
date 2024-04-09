@@ -1,5 +1,5 @@
-from EventBus.User.UserBus import UserBus
-from EventBus.Event import Event
+from EventBus.Implementations.User.UserBus import UserBus
+from Event.Event import Event
 
 
 

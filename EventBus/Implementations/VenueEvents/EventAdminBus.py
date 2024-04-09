@@ -1,7 +1,8 @@
+from EventBus.Abstract.EventBusInterface import EventBusInterface
 from NdR.VenueEvent.EventAdmin import EventAdmin
-from ..Event    import Event
+from Event.Event    import Event
 
-class EventAdminBus(object):
+class EventAdminBus(EventBusInterface):
     
     def __init__(self):
         
