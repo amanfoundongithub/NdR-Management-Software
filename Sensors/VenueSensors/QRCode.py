@@ -1,6 +1,6 @@
 from NdR.AutomatedSystems.Venues.Abstract.Venue import Venue
 
-from EventBus.Implementations.User.UserBus   import UserBus
+from EventBus.Implementations.User.Implementation.UserBus   import UserBus
 from EventBus.Implementations.Venue.VenueBus import VenueBus
 from Event.Event import Event
 

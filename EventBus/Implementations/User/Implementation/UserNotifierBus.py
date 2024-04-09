@@ -1,8 +1,8 @@
-from EventBus.Abstract.EventBusInterface import EventBusInterface
+from EventBus.Implementations.User.Abstract.UserBusInterface import UserBusInterface
 from NdR.Participants.User import User
 from Event.Event    import Event
 
-class WeatherBus(EventBusInterface):
+class UserNotifierBus(UserBusInterface):
     
     def __init__(self):
         
@@ -10,8 +10,7 @@ class WeatherBus(EventBusInterface):
         self.__bus   = {}
         
         # Subscribe all the events 
-        self.__bus["temperature"] = User.getTemperature
-        self.__bus["humidity"]    = User.getHumidity
+        self.__bus['recommend_event'] = User.getEventRecommendation
         
     
     def addToBus(self, user : User):

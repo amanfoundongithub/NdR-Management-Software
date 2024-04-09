@@ -1,6 +1,6 @@
 from NdR.AutomatedSystems.ParkingLots.Abstract.ParkingLot import ParkingLot
 
-from EventBus.Implementations.User.UserBus   import UserBus
+from EventBus.Implementations.User.Implementation.UserBus   import UserBus
 from EventBus.Implementations.ParkingLot.ParkingLotBus import ParkingLotBus
 from Event.Event import Event
 

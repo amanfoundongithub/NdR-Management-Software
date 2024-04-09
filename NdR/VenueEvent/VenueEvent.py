@@ -1,5 +1,5 @@
 from EventBus.Implementations.Venue.VenueBus import VenueBus
-from EventBus.Implementations.VenueEvents.UserNotifierBus import UserNotifierBus
+from EventBus.Implementations.User.Implementation.UserNotifierBus import UserNotifierBus
 from EventBus.Implementations.VenueEvents.EventAdminBus   import EventAdminBus
 
 from Event.Event import Event

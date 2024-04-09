@@ -21,12 +21,12 @@ from NdR.VenueEvent.EventAdmin import EventAdmin
 
 from NdR.BookingWindow.BookingWindow import BookingWindow
 
-from EventBus.Implementations.User.UserBus                              import UserBus
+from EventBus.Implementations.User.Implementation.UserBus                              import UserBus
 from EventBus.Implementations.Venue.VenueBus                            import VenueBus
 from EventBus.Implementations.ParkingLot.ParkingLotBus                  import ParkingLotBus
-from EventBus.Implementations.User.WeatherBus                        import WeatherBus
-from EventBus.Implementations.VenueEvents.UserNotifierBus                import UserNotifierBus
-from EventBus.Implementations.User.AccessibilityServiceBus import AccessibilityBus
+from EventBus.Implementations.User.Implementation.WeatherBus                        import WeatherBus
+from EventBus.Implementations.User.Implementation.UserNotifierBus                import UserNotifierBus
+from EventBus.Implementations.AccessibilityService.AccessibilityServiceBus import AccessibilityBus
 from EventBus.Implementations.VenueEvents.EventAdminBus                  import EventAdminBus
 
 import random 
@@ -151,11 +151,10 @@ while True:
         else: 
             ny = Visitor(name, types[index]) 
         visitors.append(ny)
-        ny = ny.getUser() 
-     
-        userEventBus.addToBus(ny)
-        weatherBus.addToBus(ny) 
-        usernotifierBus.addToBus(ny)
+        
+        ny.addToBus(userEventBus) 
+        ny.addToBus(weatherBus)
+        ny.addToBus(usernotifierBus) 
         
         n = int(input("Tickets:"))
         bookingWindowA.bookTickets(demand = n)  

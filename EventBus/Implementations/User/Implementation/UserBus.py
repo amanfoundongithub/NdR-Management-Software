@@ -1,8 +1,8 @@
-from EventBus.Abstract.EventBusInterface import EventBusInterface
+from EventBus.Implementations.User.Abstract.UserBusInterface import UserBusInterface
 from NdR.Participants.User import User
 from Event.Event    import Event
 
-class UserNotifierBus(EventBusInterface):
+class UserBus(UserBusInterface):
     
     def __init__(self):
         
@@ -10,7 +10,11 @@ class UserNotifierBus(EventBusInterface):
         self.__bus   = {}
         
         # Subscribe all the events 
-        self.__bus['recommend_event'] = User.getEventRecommendation
+        self.__bus['available_venue'] = User.getAvailableVenue
+        self.__bus['available_venue_alt'] = User.getAltVenue
+        
+        self.__bus['available_lot'] = User.getAvailableLot 
+        self.__bus['available_lot_alt'] = User.getAltLot
         
     
     def addToBus(self, user : User):
