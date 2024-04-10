@@ -1,175 +1,140 @@
-from Sensors.ParkingLot.MatSensor                      import ParkingMatSensor
+import requests
+import random
+import time
 
-from Sensors.VenueSensors.QRCode                       import QRCode
+USER_SERVICE_URL = 'http://127.0.0.1:5000'
+BOOKING_SERVICE_URL = 'http://127.0.0.1:5002'
+RECOMMENDATION_SERVICE_URL = 'http://127.0.0.1:5003'
+IOT_SEVICE_URL = 'http://127.0.0.1:5004'
 
-from Sensors.Weather.Implementations.TemperatureSensor import TemperatureSensor
-from Sensors.Weather.Implementations.HumiditySensor    import HumiditySensor
+def test_create_parking_lot():
+    parking_lot_datas = [{
+        'name': 'Parking Lot A',
+        'location': 'Location A',
+        'capacity': 100,
+        'parked': 20,  # Initial parked cars
+        'iot_device_id': 123,
+        'latitude': 50.456,
+        'longitude': 60.789
+    },{
+        'name': 'Parking Lot B',
+        'location': 'Location B',
+        'capacity': 100,
+        'parked': 100,  # Initial parked cars
+        'iot_device_id': 124,
+        'latitude': 14.456,
+        'longitude': 18.789
+    }]
+    for parking_lot_data in parking_lot_datas:
+        ##wait for response
+        response = requests.post(f'{IOT_SEVICE_URL}/parking_lots', json=parking_lot_data)
+        time.sleep(1)
+        print("Parking Lot Created " ,response.json())
 
-from NdR.AccessibilityService.AccessibilityService  import AccessibilityService
+def test_get_all_parking_lots():
+    response = requests.get(f'{IOT_SEVICE_URL}/parking_lots')
+    print("Parking Lot Lists " , response.json())
 
-from NdR.AutomatedSystems.ParkingLots.Implementations.ParkingLotA import ParkingLotA
-from NdR.AutomatedSystems.ParkingLots.Implementations.ParkingLotB import ParkingLotB
-
-from NdR.AutomatedSystems.Venues.Implementations.VenueA import VenueA
-from NdR.AutomatedSystems.Venues.Implementations.VenueB import VenueB
-from NdR.AutomatedSystems.Venues.Implementations.VenueC import VenueC
-
-from NdR.Participants.User import User
-from NdR.Participants.Visitor import Visitor
-
-from NdR.VenueEvent.VenueEvent import VenueEvent
-from NdR.VenueEvent.EventAdmin import EventAdmin
-
-from NdR.BookingWindow.BookingWindow import BookingWindow
-
-from EventBus.User.UserBus                              import UserBus
-from EventBus.Venue.VenueBus                            import VenueBus
-from EventBus.ParkingLot.ParkingLotBus                  import ParkingLotBus
-from EventBus.Weather.WeatherBus                        import WeatherBus
-from EventBus.VenueEvent.UserNotifierBus                import UserNotifierBus
-from EventBus.AccessibilityService.AccessibilityService import AccessibilityBus
-from EventBus.VenueEvent.EventAdminBus                  import EventAdminBus
-
-import random 
-import time 
-
-# Initialize Event Buses to communicate with the system  
-userEventBus    = UserBus() 
-usernotifierBus = UserNotifierBus() 
-venueEventBus   = VenueBus() 
-parkingLotBus   = ParkingLotBus() 
-weatherBus      = WeatherBus() 
-acBus           = AccessibilityBus() 
-
-# Initialize Sensors of temperature and humidity for the users 
-tempSensor = TemperatureSensor(
-    weatherbus = weatherBus
-)
-humSensor  = HumiditySensor(
-    weatherbus = weatherBus
-)
-
-# Initialize the Parking Lots and the Parking Mat Sensors 
-parkingLotA = ParkingLotA(userbus = userEventBus)
-parkingLotBus.addToBus(parkingLotA)
-
-parkingMatSensorA = ParkingMatSensor(parkingLot = parkingLotA,
-                                     userbus = userEventBus,
-                                     parkbus = parkingLotBus)
+def test_get_available_parking_lots():
+    response = requests.get(f'{IOT_SEVICE_URL}/parking_lots/available')
+    print("Parking Lots Available ",response.json())
 
 
-parkingLotB = ParkingLotB(userbus = userEventBus)
-parkingLotBus.addToBus(parkingLotB) 
-
-parkingMatSensorB = ParkingMatSensor(parkingLot = parkingLotB,
-                                     userbus = userEventBus,
-                                     parkbus = parkingLotBus)
+EVENT_TYPES = ["science", "comedy", "game", "art", "health"]
 
 
-# Initialize the Venues 
-venueA = VenueA(userbus = userEventBus)
-venueEventBus.addToBus(venueA)
-
-qrCodeA = QRCode(venue = venueA, 
-                 userbus = userEventBus, 
-                 venuebus = venueEventBus)
-
-bookingWindowA = BookingWindow(venuebus = venueEventBus,
-                               name_venue = venueA.getName()) 
-
-
-venueB = VenueB(userbus = userEventBus)
-venueEventBus.addToBus(venueB)
-
-qrCodeB = QRCode(venue = venueB, 
-                 userbus = userEventBus, 
-                 venuebus = venueEventBus)
-
-bookingWindowB = BookingWindow(venuebus = venueEventBus,
-                               name_venue = venueB.getName()) 
-
-venueC = VenueC(userbus = userEventBus) 
-venueEventBus.addToBus(venueC)
-
-qrCodeC = QRCode(venue = venueC, 
-                 userbus = userEventBus, 
-                 venuebus = venueEventBus)
-
-bookingWindowC = BookingWindow(venuebus = venueEventBus,
-                               name_venue = venueC.getName()) 
-
-
-# Accessibility Service
-accessibilityService = AccessibilityService("blind") 
-acBus.addToBus(accessibilityService)
-
-accessibilityService = AccessibilityService("deaf")
-acBus.addToBus(accessibilityService) 
-
-visitors = [] 
-
-i = 0 
-# Start the event! 
- 
-venue_event = VenueEvent(name = "Lecture by Dr. SK", 
-                         type = "science",
-                         venuebus = venueEventBus,
-                         userbus = usernotifierBus)
-
-
-
-types = ["science", "comedy", "game"] 
-
-
-while True: 
-    # Every minute we try to create a new event 
-    if i%12 == 0:
-        print("New event started!") 
-        venue_event.endEvent() 
-        venue_event = VenueEvent(name = "Henry Sir Lecture", type = "science", venuebus = venueEventBus,
-                                 userbus = usernotifierBus)
-
-        adminBus = EventAdminBus()
-        for iota in ['Harjin','Kaul','Yashdeep','Jakob']:
-            admin = EventAdmin(name = iota, event = venue_event.getName())
-            adminBus.addToBus(admin)
-        
-        venue_event.startEvent(event_bus = adminBus) 
-        venue_event.recommendEvent() 
+def create_temporary_events_and_venues():
+    venues = [
+        {"name": "Venue A", "capacity": 100, "location": "Location A", "latitude": 12.456, "longitude": 14.012},
+        {"name": "Venue B", "capacity": 150, "location": "Location B", "latitude": 22.789, "longitude": 24.654},
+        {"name": "Venue C", "capacity": 200, "location": "Location C", "latitude": 42.123, "longitude": 44.321}
+    ]
     
-    i += 1
+    for venue in venues:
+        response = requests.post(f'{BOOKING_SERVICE_URL}/venues', json=venue)
+        if response.status_code == 201:
+            print(f"Venue '{venue['name']}' created successfully")
+        else:
+            print(f"Failed to create venue '{venue['name']}'")
 
-    # Someone visits and becomes a visitor with probability 0.4 per time 
-    if random.random() < 0.4:
-        # Visitor name 
-        name = input("Enter the name of the person: ")
-        index = int(input('Enter the index (0 based) you are interested in ["science", "comedy", "game"]: ') )
-        disability = input("Are you disabled?")
-        disability = {'yes' : True, 'no' : False}[disability]
-        if disability == True:
-            disability = list(input('Enter disabilties:').split())
-            ny = User(name, types[index], disability = disability, acBus = acBus) 
-        else: 
-            ny = User(name, types[index]) 
-        visitors.append(Visitor(ny)) 
-        userEventBus.addToBus(ny)
-        weatherBus.addToBus(ny) 
-        usernotifierBus.addToBus(ny)
-        
-        n = int(input("Tickets:"))
-        bookingWindowA.bookTickets(demand = n)  
-        
-    if random.random() < 0.5:
-        if visitors != []:
-            visitors[-1].scanQRCode(qrCodeA)
+    for i in range(10):
+        event = {
+            "name": f"Event {i+1}",
+            "type": random.choice(EVENT_TYPES),
+            "venue": random.randint(1, len(venues)),
+            "start_time": "2024-04-10 08:00:00",
+            "end_time": "2024-04-10 12:00:00",
+            "booked_seats": random.randint(0, 50)
+        }
+        response = requests.post(f'{BOOKING_SERVICE_URL}/events', json=event)
+        if response.status_code == 201:
+            print(f"Event '{event['name']}' created successfully")
+        else:
+            print(f"Failed to create event '{event['name']}'")
+
+def test_booking_tickets():
+    # Book tickets for some events
+    response = requests.get(f'{BOOKING_SERVICE_URL}/venues')
+    venues = response.json()['data']
+
+    response = requests.get(f'{BOOKING_SERVICE_URL}/events')
+    events = response.json()['data']
+    for _ in range(3):
+        event_id = random.randint(1,len(events))  # There are 10 events created
+        num_tickets = random.randint(1, 3)
+        booking_data = {"user_id":1,"event_id": event_id, "num_tickets": num_tickets}
+        response = requests.post(f'{BOOKING_SERVICE_URL}/bookings', json=booking_data)
+        if response.status_code == 201:
+            print(f"Successfully booked {num_tickets} tickets for Event ID {event_id}")
+        else:
+            print(f"Failed to book tickets for Event ID {event_id}")
+
+    # Try to book tickets for events exceeding venue capacity
+    for _ in range(5):
+        event = random.choice(events)
+        event_id = event['id']
+        venue_id = event['venue']
+        venue_capacity = 0
+        for venue in venues:
+            if venue['id'] == venue_id:
+                venue_capacity = venue['capacity']
+                break
+        num_tickets = random.randint(venue_capacity + 1, venue_capacity + 20)  # Try to book more tickets than venue capacity
+        booking_data = {"user_id":1,"event_id": event_id, "num_tickets": num_tickets}
+        response = requests.post(f'{BOOKING_SERVICE_URL}/bookings', json=booking_data)
+        if response.status_code == 400:
+            print(f"Failed to book {num_tickets} tickets for Event ID {event_id} as venue capacity exceeded")
+        else:
+            print(f"Unexpected success in booking {num_tickets} tickets for Event ID {event_id}")
+
+def test_recommend_venues(num_tickets):
+    response = requests.get(f'{RECOMMENDATION_SERVICE_URL}/recommend_venues/{num_tickets}')
+    print("Recommended Venues: ", response.json())
+
+def test_recommend_parkinglots(location):
+    response = requests.post(f'{RECOMMENDATION_SERVICE_URL}/recommend_parkinglots', json=location)
+    print("Recommended Parking Lots: ", response.json())
+
+def test_recommend_events(topics):
+    event_data = {'topics': topics}
+    response = requests.post(f'{RECOMMENDATION_SERVICE_URL}/recommend_events', json=event_data)
+
+    print("Recommended Events With given topics : ", response.json())
+
+def main():
+    test_create_parking_lot()
+    test_get_all_parking_lots()
+    test_get_available_parking_lots()
+
+    create_temporary_events_and_venues()
+
+    test_booking_tickets()
+
+    for num_tickets in [20,50,100,1000] :
+        test_recommend_venues(num_tickets)  #Get Recommendation for num_tickets 
+    test_recommend_parkinglots({'location':{'latitude':12.5,'longitude':13.5}})  
+    test_recommend_events(['science', 'art'])  # Example: Get recommendations for events related to science and art
     
-    if random.random() < 0.5:
-        if visitors != []:
-            visitors[-1].scanMatSensor(parkingMatSensorA)
-        parkingMatSensorA.sendValues() 
-    
-    # Weather Sensor sending values to the Users at the end of the iterations! 
-    tempSensor.sendValues() 
-    humSensor.sendValues() 
-    
-    time.sleep(1.0) 
+if __name__ == "__main__":
+    test_recommend_parkinglots({'location':{'latitude':12.5,'longitude':13.5}})  
+    # main()

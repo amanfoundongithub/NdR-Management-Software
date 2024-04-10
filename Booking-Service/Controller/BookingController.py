@@ -13,7 +13,9 @@ def create_venue():
     name = venue_data['name']
     capacity = venue_data['capacity']
     location = venue_data['location']
-    venue =BookingService.BookingService.create_venue(name, capacity, location)
+    latitude = venue_data['latitude']
+    longitude = venue_data['longitude']
+    venue =BookingService.BookingService.create_venue(name, capacity, location, latitude, longitude)
     if venue:
         return jsonify({'id':venue.id}), 201
     else:
@@ -36,7 +38,9 @@ def get_all_venues() :
             'id' : venues.id,
             'name' : venues.name , 
             'capacity' : venues.capacity,
-            'location' : venues.location
+            'location' : venues.location,
+            'latitude' : venues.latitude,
+            'longitude' : venues.longitude
         }
         res.append(venuesj)
     return jsonify({'data':res})

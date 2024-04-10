@@ -1,7 +1,6 @@
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
 
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer,Float, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -20,6 +19,8 @@ class Venue(Base):
     capacity = Column(Integer)
     location = Column(String)
 
+    latitude = Column(Float)
+    longitude = Column(Float)
     # Define a relationship with the Event model
     events = relationship('Event', back_populates='venue')
 
@@ -94,8 +95,8 @@ class BookingService:
         return session.query(Event).all()
 
     @staticmethod
-    def create_venue(name, capacity, location):
-        venue = Venue(name=name, capacity=capacity, location=location)
+    def create_venue(name, capacity, location,latitude,longitude):
+        venue = Venue(name=name, capacity=capacity, location=location,latitude=latitude,longitude=longitude)
         session.add(venue)
         session.commit()
         return venue
