@@ -1,0 +1,8 @@
+Average Time for Getting All Parking Lots (100 Requests) 0.0014555800000000006
+Average Time for Getting Available Parking Lots (100 Requests) 0.0014518399999999998
+Average Time for Booking Tickets (5 Tickets) 0.0027701249999999996
+Average Time for Getting Recommendations for Venues (100 Requests) 0.004991560000000001
+Average Time for Getting Recommendations for Venues (100 Requests) 0.004826879999999999
+Average Time for Getting Recommendations for Venues (100 Requests) 0.004855480000000002
+Average Time for Getting Recommendations for Venues (100 Requests) 0.0049948300000000005
+Average Time for Getting Recommendations for Parking Lots (100 Requests) 0.004505900000000002
