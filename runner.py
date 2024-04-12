@@ -2,6 +2,8 @@ import requests
 import random
 import time
 
+from datetime import datetime
+
 USER_SERVICE_URL = 'http://127.0.0.1:5000'
 BOOKING_SERVICE_URL = 'http://127.0.0.1:5002'
 RECOMMENDATION_SERVICE_URL = 'http://127.0.0.1:5003'
@@ -26,22 +28,35 @@ def test_create_parking_lot():
         'longitude': 18.789
     }]
     for parking_lot_data in parking_lot_datas:
-        ##wait for response
         response = requests.post(f'{IOT_SEVICE_URL}/parking_lots', json=parking_lot_data)
-        time.sleep(1)
         print("Parking Lot Created " ,response.json())
 
 def test_get_all_parking_lots():
+    ##make 1000 requests
+    resp_time = []
+    for i in range(1000): 
+        times = datetime.now()
+        response = requests.get(f'{IOT_SEVICE_URL}/parking_lots')
+        timee = datetime.now()
+        resp_time.append((timee-times).total_seconds())
     response = requests.get(f'{IOT_SEVICE_URL}/parking_lots')
     print("Parking Lot Lists " , response.json())
+    with open("response.txt","a") as f:
+        f.write("Average Time for Getting All Parking Lots (1000 Requests) "+str(sum(resp_time)/len(resp_time))+"\n")
 
 def test_get_available_parking_lots():
+    resp_time = []
+    for i in range(1000):
+        times = datetime.now()
+        response = requests.get(f'{IOT_SEVICE_URL}/parking_lots/available')
+        timee = datetime.now()
+        resp_time.append((timee-times).total_seconds())
     response = requests.get(f'{IOT_SEVICE_URL}/parking_lots/available')
     print("Parking Lots Available ",response.json())
-
+    with open("response.txt","a") as f:
+        f.write("Average Time for Getting Available Parking Lots (1000 Requests) "+str(sum(resp_time)/len(resp_time))+"\n")
 
 EVENT_TYPES = ["science", "comedy", "game", "art", "health"]
-
 
 def create_temporary_events_and_venues():
     venues = [
@@ -79,16 +94,20 @@ def test_booking_tickets():
 
     response = requests.get(f'{BOOKING_SERVICE_URL}/events')
     events = response.json()['data']
+    response_time = []
     for _ in range(3):
         event_id = random.randint(1,len(events))  # There are 10 events created
         num_tickets = random.randint(1, 3)
         booking_data = {"user_id":1,"event_id": event_id, "num_tickets": num_tickets}
+        times = datetime.now()
         response = requests.post(f'{BOOKING_SERVICE_URL}/bookings', json=booking_data)
+        timee = datetime.now()
+        response_time.append((timee-times).total_seconds())
         if response.status_code == 201:
             print(f"Successfully booked {num_tickets} tickets for Event ID {event_id}")
         else:
             print(f"Failed to book tickets for Event ID {event_id}")
-
+    
     # Try to book tickets for events exceeding venue capacity
     for _ in range(5):
         event = random.choice(events)
@@ -101,24 +120,52 @@ def test_booking_tickets():
                 break
         num_tickets = random.randint(venue_capacity + 1, venue_capacity + 20)  # Try to book more tickets than venue capacity
         booking_data = {"user_id":1,"event_id": event_id, "num_tickets": num_tickets}
+        times = datetime.now()
         response = requests.post(f'{BOOKING_SERVICE_URL}/bookings', json=booking_data)
+        timee = datetime.now()
+        response_time.append((timee-times).total_seconds())
         if response.status_code == 400:
             print(f"Failed to book {num_tickets} tickets for Event ID {event_id} as venue capacity exceeded")
         else:
             print(f"Unexpected success in booking {num_tickets} tickets for Event ID {event_id}")
+    with open("response.txt","a") as f:
+        f.write("Average Time for Booking Tickets (5 Tickets) "+str(sum(response_time)/len(response_time))+"\n")
 
 def test_recommend_venues(num_tickets):
+    resp_list = []
+    for i in range(1000):
+        timees = datetime.now()
+        response = requests.get(f'{RECOMMENDATION_SERVICE_URL}/recommend_venues/{num_tickets}')
+        timee = datetime.now()
+        resp_list.append((timee-timees).total_seconds())
+    
     response = requests.get(f'{RECOMMENDATION_SERVICE_URL}/recommend_venues/{num_tickets}')
+    with open("response.txt","a") as f:
+        f.write("Average Time for Getting Recommendations for Venues (1000 Requests) "+str(sum(resp_list)/len(resp_list))+"\n")
     print("Recommended Venues: ", response.json())
 
 def test_recommend_parkinglots(location):
+    resp_time = []
+    for i in range(1000):
+        times = datetime.now()
+        response = requests.post(f'{RECOMMENDATION_SERVICE_URL}/recommend_parkinglots', json=location)
+        timee = datetime.now()
+        resp_time.append((timee-times).total_seconds())
     response = requests.post(f'{RECOMMENDATION_SERVICE_URL}/recommend_parkinglots', json=location)
     print("Recommended Parking Lots: ", response.json())
+    with open("response.txt","a") as f:
+        f.write("Average Time for Getting Recommendations for Parking Lots (1000 Requests) "+str(sum(resp_time)/len(resp_time))+"\n")
 
 def test_recommend_events(topics):
+    resp_time = []
+    for i in range(100):
+        event_data = {'topics': topics}
+        times = datetime.now()
+        response = requests.post(f'{RECOMMENDATION_SERVICE_URL}/recommend_events', json=event_data)
+        timee = datetime.now()
+        resp_time.append((timee-times).total_seconds())
     event_data = {'topics': topics}
     response = requests.post(f'{RECOMMENDATION_SERVICE_URL}/recommend_events', json=event_data)
-
     print("Recommended Events With given topics : ", response.json())
 
 def main():
@@ -136,5 +183,4 @@ def main():
     test_recommend_events(['science', 'art'])  # Example: Get recommendations for events related to science and art
     
 if __name__ == "__main__":
-    test_recommend_parkinglots({'location':{'latitude':12.5,'longitude':13.5}})  
-    # main()
+    main()
