@@ -15,7 +15,7 @@ def create_venue():
     location = venue_data['location']
     latitude = venue_data['latitude']
     longitude = venue_data['longitude']
-    venue =BookingService.BookingService.create_venue(name, capacity, location, latitude, longitude)
+    venue = BookingService.BookingService.create_venue(name, capacity, location, latitude, longitude)
     if venue:
         return jsonify({'id':venue.id}), 201
     else:
@@ -79,7 +79,7 @@ def get_all_events():
 
 @app.route('/events/<id>', methods=['GET'])
 def get_event(id):
-    event = BookingService.get_event(id)
+    event = BookingService.BookingService.get_event(id)
     if event :
         return jsonify(event)
     else:

@@ -47,9 +47,8 @@ class RecommendationService:
                 min_distance = distance
                 nearest_parking_lot = parking_lot
 
-        return nearest_parking_lot
-
-
+        return nearest_parking_lot 
+    
     @staticmethod
     def calculate_distance( lat1, lon1, lat2, lon2):
 
@@ -63,7 +62,6 @@ class RecommendationService:
         c = 2 * atan2(sqrt(a), sqrt(1-a))
         distance = 6371 * c  # Radius of the Earth in kilometers
         return distance 
-    
     
     @staticmethod
     def get_event_recommendations(topics):

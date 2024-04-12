@@ -1,65 +1,33 @@
+import sys
+sys.path.append('/Users/zaid/Downloads/Software Engineering/Assignments/NdR-Management-Software copy/Booking-Service')
+
 from sqlalchemy.orm import sessionmaker
 
 from sqlalchemy import create_engine, Column, Integer,Float, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
+from Service import base
+from Entity import Booking
+from Entity import Event
+from Entity import Venue
+
+
 # Create an engine to connect to the SQLite database
 engine = create_engine('sqlite:///booking_service.db', echo=True)
 
 # Create a base class for declarative class definitions
-Base = declarative_base()
-
-# Define the Venue model
-class Venue(Base):
-    __tablename__ = 'venues'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    capacity = Column(Integer)
-    location = Column(String)
-
-    latitude = Column(Float)
-    longitude = Column(Float)
-    # Define a relationship with the Event model
-    events = relationship('Event', back_populates='venue')
-
-# Define the Event model
-class Event(Base):
-    __tablename__ = 'events'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    event_type = Column(String)
-    venue_id = Column(Integer, ForeignKey('venues.id'))
-    start_time = Column(String)
-    end_time = Column(String)
-    booked_seats = Column(Integer, default=0)
-
-    # Define a relationship with the Venue model
-    venue = relationship('Venue', back_populates='events')
-    # Define a relationship with the Booking model
-    bookings = relationship('Booking', back_populates='event')
-
-# Define the Booking model
-class Booking(Base):
-    __tablename__ = 'bookings'
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer)
-    event_id = Column(Integer, ForeignKey('events.id'))
-    num_tickets = Column(Integer)
-
-    # Define a relationship with the Event model
-    event = relationship('Event', back_populates='bookings')
-
-# Create the tables in the database
+Base = base.Base
 Base.metadata.create_all(engine)
 
 # Create a session to interact with the database
 Session = sessionmaker(bind=engine)
 
 session = Session()
+
+Booking = Booking.Booking
+Event = Event.Event
+Venue = Venue.Venue
 
 class BookingService:
     @staticmethod

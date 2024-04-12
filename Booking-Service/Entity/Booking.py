@@ -3,7 +3,9 @@ sys.path.append('/Users/zaid/Downloads/Software Engineering/Assignments/NdR-Mana
 
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from Service.Base import Base
+from Service import base 
+
+Base = base.Base
 
 
 class Booking(Base):

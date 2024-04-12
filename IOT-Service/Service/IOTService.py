@@ -6,25 +6,15 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from math import radians, sin, cos, sqrt, atan2
 
+from Service import base    
+from Entity import ParkingLot
+from Entity import VenueIOT
 # Create an engine to connect to the SQLite database
 engine = create_engine('sqlite:///IOT_Service.db', echo=True)
 
 # Create a base class for declarative class definitions
-Base = declarative_base()
+Base = base.Base
 
-# Define the Venue model
-class ParkingLot(Base):
-    __tablename__ = 'parking_lots'
-    #define some attributes for Parking Lot
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    location = Column(String)
-    capacity = Column(Integer)
-    parked = Column(Integer)
-    iot_device_id = Column(Integer)
-    latitude = Column(Float)
-    longitude = Column(Float)
-    
 # Create the tables in the database
 Base.metadata.create_all(engine)
 
@@ -32,6 +22,9 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
 session = Session()
+
+ParkingLot = ParkingLot.ParkingLot
+VenueIOT = VenueIOT.VenueIOT
 
 class IOTService():
 
@@ -64,3 +57,13 @@ class IOTService():
         IOTService.fetchFromSensor()
         parking_lots = session.query(ParkingLot).filter(ParkingLot.capacity > ParkingLot.parked).all()
         return parking_lots
+    
+    @staticmethod
+    def fetchVenueAvailability(venue_id):
+        '''Implementation to Fetch Venue Availability'''
+        pass
+    
+    @staticmethod
+    def fetchAllVenues():
+        '''Implementation to Fetch All Venues'''
+        pass

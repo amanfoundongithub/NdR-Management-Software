@@ -3,8 +3,10 @@ sys.path.append('/Users/zaid/Downloads/Software Engineering/Assignments/NdR-Mana
 
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from Service.Base import Base
+from Service import base
 import json
+
+Base = base.Base
 class Event(Base):
     __tablename__ = 'events'
 

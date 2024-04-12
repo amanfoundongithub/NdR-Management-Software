@@ -15,7 +15,6 @@ def recommend_venue(num_tickets):
 
 @app.route('/recommend_parkinglots', methods=['POST'])
 def recommend_parkinglots():
-    print("yey")
     location_data = request.get_json()
     location = location_data['location']
     parking_lots = RecommendationService.RecommendationService.get_parking_lots(location)
@@ -23,9 +22,7 @@ def recommend_parkinglots():
 
 @app.route('/recommend_events', methods=['POST'])
 def recommend_events():
-    ##extraact topics list from request bofy
     recevent_data = request.get_json()
-    print("this is the arg ",recevent_data)
     topics = recevent_data['topics']
     rec_list = RecommendationService.RecommendationService.get_event_recommendations(topics)
     return jsonify({'data': rec_list}), 200
