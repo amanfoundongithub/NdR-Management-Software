@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/Users/zaid/Downloads/Software Engineering/Assignments/NdR-Management-Software/Booking-Service')
+sys.path.append('../../Booking-Service')
 
 from flask import Flask, jsonify, request
 from Service import BookingService

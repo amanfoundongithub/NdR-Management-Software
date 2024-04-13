@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/Users/zaid/Downloads/Software Engineering/Assignments/NdR-Management-Software copy/Booking-Service')
+sys.path.append('../../Booking-Service')
 
 from sqlalchemy.orm import sessionmaker
 

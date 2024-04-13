@@ -1,6 +1,6 @@
 
 import sys
-sys.path.append('/Users/zaid/Downloads/Software Engineering/Assignments/NdR-Management-Software/Booking-Service')
+sys.path.append('../../Booking-Service')
 
 from sqlalchemy import Column, Integer, ForeignKey,String,Float
 from sqlalchemy.orm import relationship

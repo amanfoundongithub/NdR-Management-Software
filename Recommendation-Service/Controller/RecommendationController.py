@@ -1,6 +1,6 @@
 
 import sys
-sys.path.append('/Users/zaid/Downloads/Software Engineering/Assignments/NdR-Management-Software/Recommendation-Service')
+sys.path.append('../../Recommendation-Service')
 
 from flask import Flask, jsonify, request
 from Service import RecommendationService

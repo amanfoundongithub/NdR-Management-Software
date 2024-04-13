@@ -32,9 +32,9 @@ def test_create_parking_lot():
         print("Parking Lot Created " ,response.json())
 
 def test_get_all_parking_lots():
-    ##make 1000 requests
+    ##make 100 requests
     resp_time = []
-    for i in range(1000): 
+    for i in range(100): 
         times = datetime.now()
         response = requests.get(f'{IOT_SEVICE_URL}/parking_lots')
         timee = datetime.now()
@@ -42,11 +42,11 @@ def test_get_all_parking_lots():
     response = requests.get(f'{IOT_SEVICE_URL}/parking_lots')
     print("Parking Lot Lists " , response.json())
     with open("response.txt","a") as f:
-        f.write("Average Time for Getting All Parking Lots (1000 Requests) "+str(sum(resp_time)/len(resp_time))+"\n")
+        f.write("Average Time for Getting All Parking Lots (100 Requests) "+str(sum(resp_time)/len(resp_time))+"\n")
 
 def test_get_available_parking_lots():
     resp_time = []
-    for i in range(1000):
+    for i in range(100):
         times = datetime.now()
         response = requests.get(f'{IOT_SEVICE_URL}/parking_lots/available')
         timee = datetime.now()
@@ -54,7 +54,7 @@ def test_get_available_parking_lots():
     response = requests.get(f'{IOT_SEVICE_URL}/parking_lots/available')
     print("Parking Lots Available ",response.json())
     with open("response.txt","a") as f:
-        f.write("Average Time for Getting Available Parking Lots (1000 Requests) "+str(sum(resp_time)/len(resp_time))+"\n")
+        f.write("Average Time for Getting Available Parking Lots (100 Requests) "+str(sum(resp_time)/len(resp_time))+"\n")
 
 EVENT_TYPES = ["science", "comedy", "game", "art", "health"]
 
@@ -127,13 +127,13 @@ def test_booking_tickets():
         if response.status_code == 400:
             print(f"Failed to book {num_tickets} tickets for Event ID {event_id} as venue capacity exceeded")
         else:
-            print(f"Unexpected success in booking {num_tickets} tickets for Event ID {event_id}")
+            print(f"Unexpected success in booking {num_tickets} tickets for Esvent ID {event_id}")
     with open("response.txt","a") as f:
         f.write("Average Time for Booking Tickets (5 Tickets) "+str(sum(response_time)/len(response_time))+"\n")
 
 def test_recommend_venues(num_tickets):
     resp_list = []
-    for i in range(1000):
+    for i in range(100):
         timees = datetime.now()
         response = requests.get(f'{RECOMMENDATION_SERVICE_URL}/recommend_venues/{num_tickets}')
         timee = datetime.now()
@@ -141,12 +141,12 @@ def test_recommend_venues(num_tickets):
     
     response = requests.get(f'{RECOMMENDATION_SERVICE_URL}/recommend_venues/{num_tickets}')
     with open("response.txt","a") as f:
-        f.write("Average Time for Getting Recommendations for Venues (1000 Requests) "+str(sum(resp_list)/len(resp_list))+"\n")
+        f.write("Average Time for Getting Recommendations for Venues (100 Requests) "+str(sum(resp_list)/len(resp_list))+"\n")
     print("Recommended Venues: ", response.json())
 
 def test_recommend_parkinglots(location):
     resp_time = []
-    for i in range(1000):
+    for i in range(100):
         times = datetime.now()
         response = requests.post(f'{RECOMMENDATION_SERVICE_URL}/recommend_parkinglots', json=location)
         timee = datetime.now()
@@ -154,7 +154,7 @@ def test_recommend_parkinglots(location):
     response = requests.post(f'{RECOMMENDATION_SERVICE_URL}/recommend_parkinglots', json=location)
     print("Recommended Parking Lots: ", response.json())
     with open("response.txt","a") as f:
-        f.write("Average Time for Getting Recommendations for Parking Lots (1000 Requests) "+str(sum(resp_time)/len(resp_time))+"\n")
+        f.write("Average Time for Getting Recommendations for Parking Lots (100 Requests) "+str(sum(resp_time)/len(resp_time))+"\n")
 
 def test_recommend_events(topics):
     resp_time = []

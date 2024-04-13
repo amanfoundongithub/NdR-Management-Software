@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import requests
 import sys
-sys.path.append('/Users/zaid/Downloads/Software Engineering/Assignments/NdR-Management-Software/IOT-Service')
+sys.path.append('../../IOT-Service')
 from Service import IOTService
 
 app = Flask(__name__)

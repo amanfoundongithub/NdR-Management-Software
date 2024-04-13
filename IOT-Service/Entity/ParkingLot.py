@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/Users/zaid/Downloads/Software Engineering/Assignments/NdR-Management-Software/IOT-Service')
+sys.path.append('../../IOT-Service')
 
 import random
 from sqlalchemy.orm import sessionmaker
